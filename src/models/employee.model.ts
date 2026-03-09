@@ -6,17 +6,21 @@ interface EmployeeT extends Document {
   role: "Admin" | "Owner" | "Barista" | "Kasir";
   password: String;
   email: String;
+  photo: String;
 }
 
 const employeeSchema = new Schema<EmployeeT>(
   {
     name: { type: String, required: true },
     password: { type: String, required: true },
-    email: { type: String, required: true },
+    email: { type: String, required: true, unique: true },
     role: {
       type: String,
       required: true,
       enum: [Roles.Admin, Roles.Kasir, Roles.Barista, Roles.Barista],
+    },
+    photo: {
+      type: String,
     },
   },
   { timestamps: true },
