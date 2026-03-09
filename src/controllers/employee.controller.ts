@@ -25,8 +25,21 @@ export const createEmployee = async (req: Request, res: Response) => {
     });
     const { password: _, ...employeeData } = employee.toObject();
 
-    return response.successCreate(res, "berhasil buat user", 201, employeeData);
+    return response.successCreate(res, "berhasil buat user", 201, {
+      employeeData,
+    });
   } catch (error: any) {
     return response.serverError(res, error.message);
+  }
+};
+
+export const getAllEmployee = async (req: Request, res: Response) => {
+  try {
+    const employees = await Employee.find().select("-password");
+    response.successCreate(res, "berhasil dapetin semua user", 200, {
+      employees,
+    });
+  } catch (error) {
+    return response.serverError(res, "gagal pas getAllEmployee");
   }
 };
