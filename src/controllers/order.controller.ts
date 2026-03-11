@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
-import response from "../utils/response";
-import Product from "../models/product.model";
-import Order from "../models/order.model";
+import response from "../utils/response.ts";
+import Product from "../models/product.model.ts";
+import Order from "../models/order.model.ts";
 
 export const createOrder = async (req: Request, res: Response) => {
   try {
