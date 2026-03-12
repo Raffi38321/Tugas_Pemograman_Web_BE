@@ -6,7 +6,7 @@ interface ProductT extends Document {
   price: number;
   isAvailable: boolean;
   stock: number;
-  photo: string;
+  photo?: string | null;
 }
 
 const productSchema = new Schema<ProductT>(

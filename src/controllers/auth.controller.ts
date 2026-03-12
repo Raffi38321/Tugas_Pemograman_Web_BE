@@ -20,7 +20,7 @@ export const loginController = async (req: Request, res: Response) => {
     const token = jwt.sign(
       { employeeId: employee._id, employeeRole: employee.role },
       ENV.JWT_SECRET,
-      { expiresIn: ENV.JWT_EXPIRES },
+      { expiresIn: ENV.JWT_EXPIRES as any },
     );
 
     response.successCreate(res, "berhasil bikin token", 200, { token });
@@ -31,7 +31,7 @@ export const loginController = async (req: Request, res: Response) => {
 
 export const meController = async (req: Request, res: Response) => {
   try {
-    const { userId } = req.employee;
+    const { userId } = (req as any).employee;
     const employee = await Employee.findById(userId);
     if (!employee) {
       return response.notFound(res, "user gaketemu");

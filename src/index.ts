@@ -12,6 +12,10 @@ const app = express();
 
 connect();
 app.use(express.json());
+
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "server jalan" });
+});
 app.use("/employees", employeeRouter);
 app.use("/auth", authRouter);
 app.use("/products", productRouter);

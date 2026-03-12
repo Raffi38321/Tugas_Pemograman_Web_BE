@@ -1,7 +1,7 @@
-import mongoose, { Document, Schema } from "mongoose";
+import mongoose, { Document, Schema, Types } from "mongoose";
 
 interface OrderT extends Document {
-  orderBy: string;
+  orderBy: Types.ObjectId;
   total: number;
   status: "Done" | "Pending" | "Cancelled";
   items: { productId: string; quantity: number; price: number }[];

@@ -17,13 +17,15 @@ const verifyToken = (req: Request, res: Response, next: NextFunction) => {
   }
 
   jwt.verify(token, ENV.JWT_SECRET, (err, decoded) => {
-    if (err) {
+    if (err || !decoded) {
       return response.forbidden(res, "token ga valid");
     }
 
-    req.employee = {
-      userId: decoded.employeeId,
-      role: decoded.employeeRole,
+    const payload = decoded as jwt.JwtPayload;
+
+    (req as any).employee = {
+      userId: payload.employeeId,
+      role: payload.employeeRole,
     };
     next();
   });

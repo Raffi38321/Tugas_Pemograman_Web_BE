@@ -2,11 +2,11 @@ import mongoose, { Document, Schema } from "mongoose";
 import Roles from "../utils/Role.ts";
 
 interface EmployeeT extends Document {
-  name: String;
+  name: string;
   role: "Admin" | "Owner" | "Barista" | "Kasir";
-  password: String;
-  email: String;
-  photo: String;
+  password: string;
+  email: string;
+  photo?: string | null;
 }
 
 const employeeSchema = new Schema<EmployeeT>(

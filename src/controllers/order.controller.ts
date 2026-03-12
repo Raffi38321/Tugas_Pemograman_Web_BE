@@ -6,7 +6,7 @@ import Order from "../models/order.model.ts";
 export const createOrder = async (req: Request, res: Response) => {
   try {
     const { items, status } = req.body;
-    const { id } = req.employee;
+    const { userId } = (req as any).employee;
 
     let total = 0;
     let barang = [];
@@ -30,7 +30,7 @@ export const createOrder = async (req: Request, res: Response) => {
     }
 
     const orderData: any = {
-      orderBy: id,
+      orderBy: userId,
       items: barang,
       total,
     };
