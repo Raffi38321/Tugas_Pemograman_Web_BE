@@ -36,12 +36,35 @@ const options: swaggerJSDoc.Options = {
 export const swaggerSpec = swaggerJSDoc(options);
 
 export const setupSwagger = (app: Express) => {
-  app.use("/docs", swaggerUi.serve);
+  app.get("/docs", (req: Request, res: Response) => {
+    res.send(`
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Swagger UI</title>
+  <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist/swagger-ui.css">
+</head>
 
-  app.get("/docs", swaggerUi.setup(swaggerSpec));
+<body>
+<div id="swagger-ui"></div>
+
+<script src="https://unpkg.com/swagger-ui-dist/swagger-ui-bundle.js"></script>
+
+<script>
+window.onload = () => {
+  SwaggerUIBundle({
+    url: "/docs.json",
+    dom_id: "#swagger-ui"
+  });
+};
+</script>
+
+</body>
+</html>
+    `);
+  });
 
   app.get("/docs.json", (req: Request, res: Response) => {
-    res.setHeader("Content-Type", "application/json");
-    res.send(swaggerSpec);
+    res.json(swaggerSpec);
   });
 };
