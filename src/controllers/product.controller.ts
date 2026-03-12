@@ -9,7 +9,18 @@ export const createProduct = async (req: Request, res: Response) => {
     let photoUrl = null;
 
     if (req.file) {
-      const result = await cloudinary.uploader.upload(req.file.path);
+      const result: any = await new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { folder: "products" },
+          (error, result) => {
+            if (error) reject(error);
+            else resolve(result);
+          },
+        );
+
+        stream.end(req.file!.buffer);
+      });
+
       photoUrl = result.secure_url;
     }
 
@@ -23,6 +34,7 @@ export const createProduct = async (req: Request, res: Response) => {
 
     response.successCreate(res, "berhasil buat product", 201, { product });
   } catch (error) {
+    console.log(error);
     response.serverError(res, "gagal pas buat product");
   }
 };
