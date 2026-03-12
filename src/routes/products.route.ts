@@ -1,14 +1,14 @@
 import { Router } from "express";
-import verifyToken from "../middlewares/acl.middleware.ts";
-import isUserAuthorized from "../middlewares/rbac.middleware.ts";
-import Roles from "../utils/Role.ts";
-import { validate } from "../middlewares/reqBody.middleware.ts";
-import { productSchema } from "../validators/product.validator.ts";
-import upload from "../middlewares/multer.middleware.ts";
+import verifyToken from "../middlewares/acl.middleware";
+import isUserAuthorized from "../middlewares/rbac.middleware";
+import Roles from "../utils/Role";
+import { validate } from "../middlewares/reqBody.middleware";
+import { productSchema } from "../validators/product.validator";
+import upload from "../middlewares/multer.middleware";
 import {
   createProduct,
   getAllProduct,
-} from "../controllers/product.controller.ts";
+} from "../controllers/product.controller";
 
 const productRouter = Router();
 

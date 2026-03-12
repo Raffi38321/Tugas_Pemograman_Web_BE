@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema } from "mongoose";
-import Roles from "../utils/Role.ts";
+import Roles from "../utils/Role";
 
 interface EmployeeT extends Document {
   name: string;
