@@ -16,16 +16,13 @@ const orderSchema = new Schema<OrderT>(
       enum: ["Done", "Pending", "Cancelled"],
       default: "Done",
     },
-    items: {
-      type: [
-        {
-          productId: Schema.Types.ObjectId,
-          ref: "Product",
-          quantity: Number,
-          price: Number,
-        },
-      ],
-    },
+    items: [
+      {
+        productId: { type: Schema.Types.ObjectId, ref: "Product" },
+        quantity: { type: Number },
+        price: { type: Number },
+      },
+    ],
   },
   { timestamps: true },
 );

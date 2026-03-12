@@ -29,12 +29,14 @@ export const createOrder = async (req: Request, res: Response) => {
       });
     }
 
-    const order = await Order.create({
+    const orderData: any = {
       orderBy: id,
-      items,
+      items: barang,
       total,
-      status: status ? status : "",
-    });
+    };
+    if (status) orderData.status = status;
+
+    const order = await Order.create(orderData);
 
     response.successCreate(res, "berhasil buat orderan", 201, { order });
   } catch (error) {
