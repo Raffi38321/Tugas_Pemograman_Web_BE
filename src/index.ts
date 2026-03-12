@@ -4,8 +4,9 @@ import connect from "./services/Mongo";
 import employeeRouter from "./routes/employee.route";
 import authRouter from "./routes/auth.route";
 import productRouter from "./routes/products.route";
-import { setupSwagger } from "./utils/swagger";
+import swaggerUi from "swagger-ui-express";
 import orderRouter from "./routes/order.route";
+import { swaggerSpec } from "./utils/swagger";
 
 const PORT = ENV.PORT;
 const app = express();
@@ -21,7 +22,14 @@ app.use("/auth", authRouter);
 app.use("/products", productRouter);
 app.use("/orders", orderRouter);
 
-setupSwagger(app);
+app.use("/docs", swaggerUi.serve);
+
+app.get("/docs", swaggerUi.setup(swaggerSpec));
+
+app.get("/docs.json", (req, res) => {
+  res.setHeader("Content-Type", "application/json");
+  res.send(swaggerSpec);
+});
 
 app.listen(PORT, () => {
   console.log(`jalan di port ${PORT}`);
