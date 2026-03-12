@@ -11,6 +11,7 @@ const ENV = {
   CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET || "",
   JWT_SECRET: process.env.JWT_SECRET || "",
   JWT_EXPIRES: process.env.JWT_EXPIRES || "",
+  BASE_URL: process.env.BASE_URL || "http://localhost:3000",
 };
 
 export default ENV;

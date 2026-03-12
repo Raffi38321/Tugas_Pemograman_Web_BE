@@ -13,7 +13,7 @@ const options: swaggerJSDoc.Options = {
     },
     servers: [
       {
-        url: `http://localhost:${ENV.PORT || 3000}`,
+        url: ENV.BASE_URL || "http://localhost:3000",
       },
     ],
     components: {
@@ -25,19 +25,16 @@ const options: swaggerJSDoc.Options = {
         },
       },
     },
-    security: [
-      {
-        bearerAuth: [],
-      },
-    ],
+    security: [{ bearerAuth: [] }],
   },
-  apis: ["./src/routes/*.ts", "./src/index.ts"],
+  apis: ["./src/**/*.ts", "./src/**/*.js"],
 };
 
 const swaggerSpec = swaggerJSDoc(options);
 
 export const setupSwagger = (app: Express) => {
   app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
   app.get("/docs.json", (req: Request, res: Response) => {
     res.setHeader("Content-Type", "application/json");
     res.send(swaggerSpec);
