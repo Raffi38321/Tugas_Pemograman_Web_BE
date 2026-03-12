@@ -1,9 +1,9 @@
 import type { Request, Response } from "express";
 import bcrypt from "bcrypt";
-import response from "../utils/response.ts";
-import Employee from "../models/employee.model.ts";
-import ENV from "../utils/ENV.ts";
-import cloudinary from "../utils/cloudinary.ts";
+import response from "../utils/response";
+import Employee from "../models/employee.model";
+import ENV from "../utils/ENV";
+import cloudinary from "../utils/cloudinary";
 
 export const createEmployee = async (req: Request, res: Response) => {
   try {

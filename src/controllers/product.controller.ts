@@ -1,7 +1,7 @@
 import type { Request, Response } from "express";
-import response from "../utils/response.ts";
-import cloudinary from "../utils/cloudinary.ts";
-import Product from "../models/product.model.ts";
+import response from "../utils/response";
+import cloudinary from "../utils/cloudinary";
+import Product from "../models/product.model";
 
 export const createProduct = async (req: Request, res: Response) => {
   try {

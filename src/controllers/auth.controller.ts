@@ -1,9 +1,9 @@
 import type { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import bcrypt from "bcrypt";
-import response from "../utils/response.ts";
-import Employee from "../models/employee.model.ts";
-import ENV from "../utils/ENV.ts";
+import response from "../utils/response";
+import Employee from "../models/employee.model";
+import ENV from "../utils/ENV";
 
 export const loginController = async (req: Request, res: Response) => {
   try {

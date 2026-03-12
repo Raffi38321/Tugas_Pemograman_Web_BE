@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { validate } from "../middlewares/reqBody.middleware.ts";
-import isUserAuthorized from "../middlewares/rbac.middleware.ts";
-import Roles from "../utils/Role.ts";
-import { orderSchema } from "../validators/order.validator.ts";
-import verifyToken from "../middlewares/acl.middleware.ts";
-import { createOrder } from "../controllers/order.controller.ts";
+import { validate } from "../middlewares/reqBody.middleware";
+import isUserAuthorized from "../middlewares/rbac.middleware";
+import Roles from "../utils/Role";
+import { orderSchema } from "../validators/order.validator";
+import verifyToken from "../middlewares/acl.middleware";
+import { createOrder } from "../controllers/order.controller";
 
 const orderRouter = Router();
 
