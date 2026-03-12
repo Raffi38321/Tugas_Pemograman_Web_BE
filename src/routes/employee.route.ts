@@ -2,13 +2,13 @@ import { Router } from "express";
 import {
   createEmployee,
   getAllEmployee,
-} from "../controllers/employee.controller.ts";
-import { validate } from "../middlewares/reqBody.middleware.ts";
-import { employeeSchema } from "../validators/employee.validator.ts";
-import upload from "../middlewares/multer.middleware.ts";
-import verifyToken from "../middlewares/acl.middleware.ts";
-import isUserAuthorized from "../middlewares/rbac.middleware.ts";
-import Roles from "../utils/Role.ts";
+} from "../controllers/employee.controller";
+import { validate } from "../middlewares/reqBody.middleware";
+import { employeeSchema } from "../validators/employee.validator";
+import upload from "../middlewares/multer.middleware";
+import verifyToken from "../middlewares/acl.middleware";
+import isUserAuthorized from "../middlewares/rbac.middleware";
+import Roles from "../utils/Role";
 
 const employeeRouter = Router();
 

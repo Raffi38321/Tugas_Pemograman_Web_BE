@@ -1,5 +1,5 @@
 import type { NextFunction, Request, Response } from "express";
-import response from "../utils/response.ts";
+import response from "../utils/response";
 
 const isUserAuthorized =
   (ROLES: string[]) => (req: Request, res: Response, next: NextFunction) => {

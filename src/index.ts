@@ -1,11 +1,11 @@
 import express from "express";
-import ENV from "./utils/ENV.ts";
-import connect from "./services/Mongo.ts";
-import employeeRouter from "./routes/employee.route.ts";
-import authRouter from "./routes/auth.route.ts";
-import productRouter from "./routes/products.route.ts";
-import { setupSwagger } from "./utils/swagger.ts";
-import orderRouter from "./routes/order.route.ts";
+import ENV from "./utils/ENV";
+import connect from "./services/Mongo";
+import employeeRouter from "./routes/employee.route";
+import authRouter from "./routes/auth.route";
+import productRouter from "./routes/products.route";
+import { setupSwagger } from "./utils/swagger";
+import orderRouter from "./routes/order.route";
 
 const PORT = ENV.PORT;
 const app = express();
