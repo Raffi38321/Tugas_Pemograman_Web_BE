@@ -4,7 +4,12 @@ interface OrderT extends Document {
   orderBy: Types.ObjectId;
   total: number;
   status: "Done" | "Pending" | "Cancelled";
-  items: { productId: string; quantity: number; price: number }[];
+  items: {
+    productId: string;
+    quantity: number;
+    price: number;
+    productName: string;
+  }[];
 }
 
 const orderSchema = new Schema<OrderT>(
@@ -21,6 +26,7 @@ const orderSchema = new Schema<OrderT>(
         productId: { type: Schema.Types.ObjectId, ref: "Product" },
         quantity: { type: Number },
         price: { type: Number },
+        productName: { type: String },
       },
     ],
   },

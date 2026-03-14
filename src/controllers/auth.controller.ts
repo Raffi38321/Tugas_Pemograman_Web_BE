@@ -23,7 +23,7 @@ export const loginController = async (req: Request, res: Response) => {
       { expiresIn: ENV.JWT_EXPIRES as any },
     );
 
-    response.successCreate(res, "berhasil bikin token", 200, { token });
+    response.successWithData(res, "berhasil bikin token", { token });
   } catch (error) {
     response.serverError(res, "error di login");
   }
@@ -37,7 +37,7 @@ export const meController = async (req: Request, res: Response) => {
       return response.notFound(res, "user gaketemu");
     }
     const { password: _, ...employeeData } = employee.toObject();
-    response.successCreate(res, "berhasil dapet data user", 200, {
+    response.successWithData(res, "berhasil dapet data user", {
       employee: employeeData,
     });
   } catch (error) {

@@ -1,6 +1,4 @@
 import mongoose, { Document, Schema } from "mongoose";
-import Roles from "../utils/Role";
-
 interface ProductT extends Document {
   name: string;
   price: number;

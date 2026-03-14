@@ -36,7 +36,7 @@ export const createEmployee = async (req: Request, res: Response) => {
 export const getAllEmployee = async (req: Request, res: Response) => {
   try {
     const employees = await Employee.find().select("-password");
-    response.successCreate(res, "berhasil dapetin semua user", 200, {
+    response.successWithData(res, "berhasil dapetin semua user", {
       employees,
     });
   } catch (error) {

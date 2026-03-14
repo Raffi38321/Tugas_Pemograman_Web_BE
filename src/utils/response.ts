@@ -24,6 +24,12 @@ const response = {
   ) => {
     return res.status(code).json({ status: "succes", message, data });
   },
+  successWithData: (res: Response, message: string, data: any) => {
+    return res.status(200).json({ status: "succes", message, data });
+  },
+  success: (res: Response, message: string) => {
+    return res.status(200).json({ status: "succes", message });
+  },
 };
 
 export default response;

@@ -42,10 +42,54 @@ export const createProduct = async (req: Request, res: Response) => {
 export const getAllProduct = async (req: Request, res: Response) => {
   try {
     const products = await Product.find();
-    response.successCreate(res, "berhasil dapetin semua product", 200, {
+    response.successWithData(res, "berhasil dapetin semua product", {
       products,
     });
   } catch (error) {
     return response.serverError(res, "gagal pas getAllProduct");
+  }
+};
+
+export const updateProductById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { name, price, isAvailable, stock } = req.body;
+    const updateData: any = {};
+    if (name !== undefined) updateData.name = name;
+    if (price !== undefined) updateData.price = price;
+    if (stock !== undefined) {
+      updateData.stock = stock;
+      if (stock === 0) {
+        updateData.isAvailable = false;
+      }
+    }
+    if (isAvailable !== undefined) {
+      updateData.isAvailable = isAvailable;
+    }
+    const product = await Product.findByIdAndUpdate(id, updateData, {
+      new: true,
+    });
+    if (!product) {
+      return response.notFound(res, "product ga ada");
+    }
+    return response.successWithData(res, "berhasil update product", {
+      product,
+    });
+  } catch (error) {
+    return response.serverError(res, "gagal pas updateProductById");
+  }
+};
+
+export const deleteProductById = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const product = await Product.findByIdAndDelete(id);
+    if (!product) {
+      return response.notFound(res, "product ga ketemu");
+    }
+
+    response.success(res, "berhasil hapus product");
+  } catch (error) {
+    return response.serverError(res, "gagal pas deleteProductById");
   }
 };

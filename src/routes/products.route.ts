@@ -3,11 +3,16 @@ import verifyToken from "../middlewares/acl.middleware";
 import isUserAuthorized from "../middlewares/rbac.middleware";
 import Roles from "../utils/Role";
 import { validate } from "../middlewares/reqBody.middleware";
-import { productSchema } from "../validators/product.validator";
+import {
+  productSchema,
+  productUpdateSchema,
+} from "../validators/product.validator";
 import upload from "../middlewares/multer.middleware";
 import {
   createProduct,
+  deleteProductById,
   getAllProduct,
+  updateProductById,
 } from "../controllers/product.controller";
 
 const productRouter = Router();
@@ -123,6 +128,22 @@ productRouter.get(
     isUserAuthorized([Roles.Admin, Roles.Owner, Roles.Barista, Roles.Kasir]),
   ],
   getAllProduct,
+);
+
+productRouter.put(
+  "/:id",
+  [
+    verifyToken,
+    isUserAuthorized([Roles.Admin, Roles.Owner, Roles.Barista, Roles.Kasir]),
+    validate(productUpdateSchema),
+  ],
+  updateProductById,
+);
+
+productRouter.delete(
+  "/:id",
+  [verifyToken, isUserAuthorized([Roles.Admin, Roles.Owner])],
+  deleteProductById,
 );
 
 export default productRouter;

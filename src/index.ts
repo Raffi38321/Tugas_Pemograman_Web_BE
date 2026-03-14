@@ -7,6 +7,7 @@ import productRouter from "./routes/products.route";
 import swaggerUi from "swagger-ui-express";
 import orderRouter from "./routes/order.route";
 import { swaggerSpec } from "./utils/swagger";
+import rawMaterialRouter from "./routes/rawMaterial.route";
 
 const PORT = ENV.PORT;
 const app = express();
@@ -21,11 +22,10 @@ app.use("/employees", employeeRouter);
 app.use("/auth", authRouter);
 app.use("/products", productRouter);
 app.use("/orders", orderRouter);
+app.use("/raw-materials", rawMaterialRouter);
 
 app.use("/docs", swaggerUi.serve);
-
 app.get("/docs", swaggerUi.setup(swaggerSpec));
-
 app.get("/docs.json", (req, res) => {
   res.setHeader("Content-Type", "application/json");
   res.send(swaggerSpec);
