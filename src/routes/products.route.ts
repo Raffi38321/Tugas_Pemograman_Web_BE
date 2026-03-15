@@ -108,6 +108,73 @@ const productRouter = Router();
  *         description: Unauthorized
  *       403:
  *         description: Forbidden
+ *
+ * /products/{id}:
+ *   put:
+ *     summary: Update product by ID
+ *     tags: [Products]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Product ID
+ *     requestBody:
+ *       required: false
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               name:
+ *                 type: string
+ *               price:
+ *                 type: number
+ *               isAvailable:
+ *                 type: boolean
+ *               stock:
+ *                 type: number
+ *           example:
+ *             name: "Kopi Susu Gula Aren Large"
+ *             price: 30000
+ *             isAvailable: false
+ *             stock: 0
+ *     responses:
+ *       200:
+ *         description: Product updated successfully
+ *       400:
+ *         description: Bad request
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden
+ *       404:
+ *         description: Product not found
+ *
+ *   delete:
+ *     summary: Delete product by ID
+ *     tags: [Products]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Product ID
+ *     responses:
+ *       200:
+ *         description: Product deleted successfully
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden
+ *       404:
+ *         description: Product not found
  */
 
 productRouter.post(
