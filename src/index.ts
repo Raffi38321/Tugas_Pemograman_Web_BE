@@ -8,12 +8,14 @@ import swaggerUi from "swagger-ui-express";
 import orderRouter from "./routes/order.route";
 import { swaggerSpec } from "./utils/swagger";
 import rawMaterialRouter from "./routes/rawMaterial.route";
+import cors from "cors";
 
 const PORT = ENV.PORT;
 const app = express();
 
 connect();
 app.use(express.json());
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.status(200).json({ message: "server jalan" });
