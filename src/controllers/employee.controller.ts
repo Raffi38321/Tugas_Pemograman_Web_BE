@@ -13,7 +13,16 @@ export const createEmployee = async (req: Request, res: Response) => {
     let photoUrl = null;
 
     if (req.file) {
-      const result = await cloudinary.uploader.upload(req.file.path);
+      const result: any = await new Promise((resolve, reject) => {
+        const stream = cloudinary.uploader.upload_stream(
+          { folder: "employees" },
+          (error, result) => {
+            if (error) reject(error);
+            else resolve(result);
+          },
+        );
+        stream.end(req.file!.buffer);
+      });
       photoUrl = result.secure_url;
     }
     const employee = await Employee.create({
@@ -41,5 +50,19 @@ export const getAllEmployee = async (req: Request, res: Response) => {
     });
   } catch (error) {
     return response.serverError(res, "gagal pas getAllEmployee");
+  }
+};
+
+export const deleteEmployee = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const employee = await Employee.findByIdAndDelete(id);
+    if (!employee) {
+      return response.notFound(res, "employee ga ketemu");
+    }
+
+    response.success(res, "berhasil hapus employee");
+  } catch (error) {
+    return response.serverError(res, "gagal pas deletegetAllEmployee");
   }
 };

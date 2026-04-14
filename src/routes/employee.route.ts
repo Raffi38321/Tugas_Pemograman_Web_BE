@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   createEmployee,
+  deleteEmployee,
   getAllEmployee,
 } from "../controllers/employee.controller";
 import { validate } from "../middlewares/reqBody.middleware";
@@ -120,6 +121,12 @@ employeeRouter.get(
   "/",
   [verifyToken, isUserAuthorized([Roles.Admin, Roles.Owner])],
   getAllEmployee,
+);
+
+employeeRouter.delete(
+  "/:id",
+  [verifyToken, isUserAuthorized([Roles.Admin, Roles.Owner])],
+  deleteEmployee,
 );
 
 export default employeeRouter;

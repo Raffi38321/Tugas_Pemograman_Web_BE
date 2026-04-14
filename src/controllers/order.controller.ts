@@ -44,3 +44,28 @@ export const createOrder = async (req: Request, res: Response) => {
     response.serverError(res, "error pas createOrder");
   }
 };
+
+export const getAllOrders = async (req: Request, res: Response) => {
+  try {
+    const orders = await Order.find()
+      .sort({ createdAt: -1 })
+      .populate("orderBy", "name");
+    response.successWithData(res, "berhasil dapetin semua order", { orders });
+  } catch (error) {
+    response.serverError(res, "gagal pas getAllOrders");
+  }
+};
+
+export const deleteOrder = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const order = await Order.findByIdAndDelete(id);
+    if (!order) {
+      return response.notFound(res, "order ga ketemu");
+    }
+
+    response.success(res, "berhasil hapus order");
+  } catch (error) {
+    return response.serverError(res, "gagal pas deleteOrder");
+  }
+};

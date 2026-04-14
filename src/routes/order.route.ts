@@ -1,19 +1,14 @@
 import { Router } from "express";
-import { validate } from "../middlewares/reqBody.middleware";
+import {
+  createOrder,
+  deleteOrder,
+  getAllOrders,
+} from "../controllers/order.controller";
+import verifyToken from "../middlewares/acl.middleware";
 import isUserAuthorized from "../middlewares/rbac.middleware";
 import Roles from "../utils/Role";
-import { orderSchema } from "../validators/order.validator";
-import verifyToken from "../middlewares/acl.middleware";
-import { createOrder } from "../controllers/order.controller";
 
 const orderRouter = Router();
-
-/**
- * @swagger
- * tags:
- *   name: Orders
- *   description: Order management API
- */
 
 /**
  * @swagger
@@ -36,42 +31,113 @@ const orderRouter = Router();
  *                 type: array
  *                 items:
  *                   type: object
- *                   required:
- *                     - productId
- *                     - quantity
  *                   properties:
  *                     productId:
  *                       type: string
- *                       description: The ID of the product
  *                     quantity:
  *                       type: number
- *                       description: The quantity of the product to order
  *               status:
  *                 type: string
  *                 enum: [Done, Pending, Cancelled]
- *                 description: Order status (optional)
+ *           example:
+ *             items:
+ *               - productId: "65e6789abcd12345e6789f"
+ *                 quantity: 2
+ *             status: "Done"
  *     responses:
  *       201:
  *         description: Order created successfully
  *       400:
- *         description: Bad request (validation error or insufficient stock)
+ *         description: Bad request
  *       401:
  *         description: Unauthorized
- *       403:
- *         description: Forbidden
- *       404:
- *         description: Product not found
- *       500:
- *         description: Internal server error
  */
+
+/**
+ * @swagger
+ * /orders/{id}:
+ *   delete:
+ *     summary: Delete order by ID
+ *     tags: [Orders]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Order ID
+ *     responses:
+ *       200:
+ *         description: Order deleted successfully
+ *       404:
+ *         description: Order not found
+ *       401:
+ *         description: Unauthorized
+ */
+
+/**
+ * @swagger
+ * /orders:
+ *   get:
+ *     summary: Get all orders
+ *     tags: [Orders]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: Successfully retrieved all orders
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                   items:
+ *                     type: array
+ *                     items:
+ *                       type: object
+ *                       properties:
+ *                         productId:
+ *                           type: string
+ *                         quantity:
+ *                           type: number
+ *                   status:
+ *                     type: string
+ *                     enum: [Done, Pending, Cancelled]
+ *                   createdAt:
+ *                     type: string
+ *                     format: date-time
+ *                   updatedAt:
+ *                     type: string
+ *                     format: date-time
+ *       401:
+ *         description: Unauthorized
+ */
+
+orderRouter.get(
+  "/",
+  [verifyToken, isUserAuthorized([Roles.Admin, Roles.Owner])],
+  getAllOrders,
+);
+
 orderRouter.post(
   "/",
   [
     verifyToken,
-    isUserAuthorized([Roles.Admin, Roles.Owner, Roles.Barista, Roles.Barista]),
-    validate(orderSchema),
+    isUserAuthorized([Roles.Admin, Roles.Owner, Roles.Kasir, Roles.Barista]),
   ],
   createOrder,
+);
+
+orderRouter.delete(
+  "/:id",
+  [verifyToken, isUserAuthorized([Roles.Admin, Roles.Owner])],
+  deleteOrder,
 );
 
 export default orderRouter;

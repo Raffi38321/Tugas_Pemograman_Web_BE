@@ -8,6 +8,7 @@ import swaggerUi from "swagger-ui-express";
 import orderRouter from "./routes/order.route";
 import { swaggerSpec } from "./utils/swagger";
 import rawMaterialRouter from "./routes/rawMaterial.route";
+import statsRouter from "./routes/stats.route";
 import cors from "cors";
 
 const PORT = ENV.PORT;
@@ -25,6 +26,7 @@ app.use("/auth", authRouter);
 app.use("/products", productRouter);
 app.use("/orders", orderRouter);
 app.use("/raw-materials", rawMaterialRouter);
+app.use("/stats", statsRouter);
 
 app.use("/docs", swaggerUi.serve);
 app.get("/docs", swaggerUi.setup(swaggerSpec));
