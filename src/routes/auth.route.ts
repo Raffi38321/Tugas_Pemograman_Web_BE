@@ -8,6 +8,10 @@ const authRouter = Router();
 
 /**
  * @swagger
+ * tags:
+ *   name: Auth
+ *   description: Authentication endpoints
+ *
  * /auth/login:
  *   post:
  *     summary: Login user

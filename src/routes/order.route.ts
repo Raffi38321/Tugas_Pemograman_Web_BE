@@ -12,9 +12,51 @@ const orderRouter = Router();
 
 /**
  * @swagger
+ * tags:
+ *   name: Orders
+ *   description: Order management
+ *
  * /orders:
+ *   get:
+ *     summary: Get all orders
+ *     description: Returns all orders sorted by newest first, with the ordering employee's name populated. Accessible by Admin and Owner only.
+ *     tags: [Orders]
+ *     security:
+ *       - bearerAuth: []
+ *     responses:
+ *       200:
+ *         description: List of all orders
+ *         content:
+ *           application/json:
+ *             example:
+ *               status: "succes"
+ *               message: "berhasil dapetin semua order"
+ *               data:
+ *                 orders:
+ *                   - _id: "65eabcd1234567890abcdef"
+ *                     orderBy:
+ *                       _id: "65eabcd1234567890abc000"
+ *                       name: "Budi Kasir"
+ *                     total: 75000
+ *                     status: "Done"
+ *                     items:
+ *                       - productId: "65e6789abcd12345e6789f"
+ *                         productName: "Caramel Macchiato"
+ *                         quantity: 2
+ *                         price: 35000
+ *                     createdAt: "2024-03-05T10:00:00.000Z"
+ *                     updatedAt: "2024-03-05T10:00:00.000Z"
+ *       401:
+ *         description: Unauthorized
+ *       403:
+ *         description: Forbidden — only Admin and Owner
+ *
  *   post:
  *     summary: Create a new order
+ *     description: >
+ *       Creates an order from a list of product IDs and quantities.
+ *       The server calculates the total price and validates stock availability.
+ *       Accessible by all authenticated roles.
  *     tags: [Orders]
  *     security:
  *       - bearerAuth: []
@@ -31,14 +73,20 @@ const orderRouter = Router();
  *                 type: array
  *                 items:
  *                   type: object
+ *                   required:
+ *                     - productId
+ *                     - quantity
  *                   properties:
  *                     productId:
  *                       type: string
+ *                       example: "65e6789abcd12345e6789f"
  *                     quantity:
  *                       type: number
+ *                       example: 2
  *               status:
  *                 type: string
  *                 enum: [Done, Pending, Cancelled]
+ *                 default: Done
  *           example:
  *             items:
  *               - productId: "65e6789abcd12345e6789f"
@@ -47,17 +95,31 @@ const orderRouter = Router();
  *     responses:
  *       201:
  *         description: Order created successfully
+ *         content:
+ *           application/json:
+ *             example:
+ *               status: "succes"
+ *               message: "berhasil buat orderan"
+ *               data:
+ *                 order:
+ *                   _id: "65eabcd1234567890abcdef"
+ *                   orderBy: "65eabcd1234567890abc000"
+ *                   total: 70000
+ *                   status: "Done"
+ *                   items:
+ *                     - productId: "65e6789abcd12345e6789f"
+ *                       productName: "Caramel Macchiato"
+ *                       quantity: 2
+ *                       price: 35000
  *       400:
- *         description: Bad request
+ *         description: Bad request — product not found or insufficient stock
  *       401:
  *         description: Unauthorized
- */
-
-/**
- * @swagger
+ *
  * /orders/{id}:
  *   delete:
  *     summary: Delete order by ID
+ *     description: Permanently deletes an order. Accessible by Admin and Owner only.
  *     tags: [Orders]
  *     security:
  *       - bearerAuth: []
@@ -67,56 +129,22 @@ const orderRouter = Router();
  *         required: true
  *         schema:
  *           type: string
- *         description: Order ID
+ *         description: MongoDB ObjectId of the order
+ *         example: "65eabcd1234567890abcdef"
  *     responses:
  *       200:
  *         description: Order deleted successfully
- *       404:
- *         description: Order not found
- *       401:
- *         description: Unauthorized
- */
-
-/**
- * @swagger
- * /orders:
- *   get:
- *     summary: Get all orders
- *     tags: [Orders]
- *     security:
- *       - bearerAuth: []
- *     responses:
- *       200:
- *         description: Successfully retrieved all orders
  *         content:
  *           application/json:
- *             schema:
- *               type: array
- *               items:
- *                 type: object
- *                 properties:
- *                   _id:
- *                     type: string
- *                   items:
- *                     type: array
- *                     items:
- *                       type: object
- *                       properties:
- *                         productId:
- *                           type: string
- *                         quantity:
- *                           type: number
- *                   status:
- *                     type: string
- *                     enum: [Done, Pending, Cancelled]
- *                   createdAt:
- *                     type: string
- *                     format: date-time
- *                   updatedAt:
- *                     type: string
- *                     format: date-time
+ *             example:
+ *               status: "succes"
+ *               message: "berhasil hapus order"
  *       401:
  *         description: Unauthorized
+ *       403:
+ *         description: Forbidden — only Admin and Owner
+ *       404:
+ *         description: Order not found
  */
 
 orderRouter.get(

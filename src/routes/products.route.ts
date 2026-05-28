@@ -19,6 +19,10 @@ const productRouter = Router();
 
 /**
  * @swagger
+ * tags:
+ *   name: Products
+ *   description: Product menu management
+ *
  * /products:
  *   post:
  *     summary: Create a new product

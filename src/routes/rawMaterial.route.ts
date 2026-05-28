@@ -18,6 +18,10 @@ const rawMaterialRouter = Router();
 
 /**
  * @swagger
+ * tags:
+ *   name: Raw Materials
+ *   description: Raw material stock management
+ *
  * /raw-materials:
  *   post:
  *     summary: Create a new raw material
